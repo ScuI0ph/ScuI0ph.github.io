@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上海对外经贸大学 - Flex布局复现</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            background: #002D62;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+            .logo img {
+                height: 60px;
+                margin-right: 15px;
+            }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+            nav a {
+                color: white;
+                text-decoration: none;
+                padding: 8px 16px;
+                transition: all 0.3s;
+            }
+
+                nav a:hover {
+                    background: rgba(255,255,255,0.2);
+                    border-radius: 4px;
+                }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://picsum.photos/id/1015/1920/400') center/cover no-repeat;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .banner-content {
+            max-width: 800px;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* 左侧新闻区 */
+        .content {
+            flex: 2;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #002D62;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+            .section-header h2 {
+                font-size: 18px;
+                color: #002D62;
+            }
+
+        .more {
+            color: #002D62;
+            text-decoration: none;
+        }
+
+        .news-list {
+            list-style: none;
+        }
+
+            .news-list li {
+                padding: 8px 0;
+                border-bottom: 1px dashed #ddd;
+            }
+
+                .news-list li:last-child {
+                    border: none;
+                }
+
+        /* 右侧侧边栏 */
+        .sidebar {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: #002D62;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            nav {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <!-- <img src="logo.png" alt="校徽"> -->
+                <span>上海对外经贸大学</span>
+            </div>
+            <nav>
+                <a href="#">首页</a>
+                <a href="#">学校概况</a>
+                <a href="#">教学科研</a>
+                <a href="#">招生就业</a>
+                <a href="#">国际交流</a>
+                <a href="#">校园生活</a>
+                <a href="#">新闻中心</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner -->
+    <div class="banner">
+        <div class="banner-content">
+            <h1 style="font-size: 42px; margin-bottom: 10px;">上海对外经贸大学</h1>
+            <p style="font-size: 20px;">培养全球经济治理人才 · 服务国家战略需求</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- 左侧主要内容 -->
+        <div class="content">
+            <!-- 校园要闻 -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>校园要闻</h2>
+                    <a href="#" class="more">更多 &gt;</a>
+                </div>
+                <ul class="news-list">
+                    <li><a href="#">学校党委理论学习中心组参观上海市树立和践行正确政绩观警示教育专题展</a> <span style="color:#999; font-size:14px;">2026-06-05</span></li>
+                    <li><a href="#">聚焦“入世”25周年与上海国际贸易中心提质升级，这场学术研讨会在上经贸大举行</a> <span style="color:#999; font-size:14px;">2026-06-05</span></li>
+                    <li><a href="#">上海对外经贸大学——加拿大道格拉斯学院合作办学项目第25届毕业生毕业典礼隆重举行</a> <span style="color:#999; font-size:14px;">2026-06-05</span></li>
+                </ul>
+            </div>
+
+            <!-- 新闻快讯 -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>新闻快讯 · 媒体报道</h2>
+                    <a href="#" class="more">更多 &gt;</a>
+                </div>
+                <ul class="news-list">
+                    <li><a href="#">我校学生在2026年全国大学生英语竞赛中荣获佳绩</a></li>
+                    <li><a href="#">“新《公司法》下董事的义务和责任”学术研讨会在上海对外经贸大学举行</a></li>
+                    <li><a href="#">2026年教职工趣味运动会顺利举行</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 右侧侧边栏 -->
+        <div class="sidebar">
+            <!-- 科研动态 -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>科研动态</h2>
+                    <a href="#" class="more">更多 &gt;</a>
+                </div>
+                <ul class="news-list">
+                    <li><a href="#">关于组织申报2026年全国教育科学规划年度项目的通知</a></li>
+                    <li><a href="#">2026年国家社科基金重大项目选题征集公告</a></li>
+                </ul>
+            </div>
+
+            <!-- 快速链接或其他模块 -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>快速导航</h2>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <a href="#" style="background:#eee; padding:10px 15px; border-radius:4px; text-decoration:none; color:#002D62; flex:1; text-align:center;">招生信息</a>
+                    <a href="#" style="background:#eee; padding:10px 15px; border-radius:4px; text-decoration:none; color:#002D62; flex:1; text-align:center;">就业服务</a>
+                    <a href="#" style="background:#eee; padding:10px 15px; border-radius:4px; text-decoration:none; color:#002D62; flex:1; text-align:center;">图书馆</a>
+                    <a href="#" style="background:#eee; padding:10px 15px; border-radius:4px; text-decoration:none; color:#002D62; flex:1; text-align:center;">邮件系统</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>上海对外经贸大学</h3>
+                <p>地址：上海市松江区文翔路1900号</p>
+                <p>邮编：201620</p>
+            </div>
+            <div class="footer-col">
+                <h3>友情链接</h3>
+                <p><a href="#" style="color:white;">教育部</a> | <a href="#" style="color:white;">上海市教委</a></p>
+            </div>
+            <div class="footer-col">
+                <p>&copy; 2026 上海对外经贸大学 版权所有</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
