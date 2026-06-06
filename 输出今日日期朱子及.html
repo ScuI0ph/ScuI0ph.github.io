@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>今日日期</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f5f5f5;
+        }
+
+        .date {
+            font-size: 2.5em;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="date" id="date"></div>
+
+    <script>
+function showDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const weekDay = now.getDay();
+
+  const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+
+  document.getElementById('date').textContent =
+    `今天是${year}年${month}月${day}日 ${weekDays[weekDay]}`;
+}
+
+window.onload = showDate;
+    </script>
+</body>
+</html>
