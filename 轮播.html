@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动轮播 - 自动生成菜单 + 自动播放</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f4f4f4;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        #container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            border: 4px solid #333;
+            overflow: hidden;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        #list {
+            position: absolute;
+            z-index: 1;
+            width: 4800px; /* 6张图 × 800px */
+            height: 500px;
+            left: 0;
+            transition: left 0.5s ease;
+        }
+
+            #list img {
+                float: left;
+                width: 800px;
+                height: 500px;
+                object-fit: cover;
+            }
+
+        #buttons {
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            z-index: 2;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+            #buttons span {
+                display: inline-block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid #fff;
+                border-radius: 50%;
+                background: rgba(0,0,0,0.4);
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+
+            #buttons .on {
+                background: orangered;
+                transform: scale(1.2);
+            }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            z-index: 3;
+            width: 50px;
+            height: 80px;
+            font-size: 50px;
+            font-weight: bold;
+            line-height: 80px;
+            text-align: center;
+            color: #fff;
+            background: rgba(0,0,0,0.4);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s;
+            transform: translateY(-50%);
+        }
+
+            .arrow:hover {
+                background: rgba(0,0,0,0.7);
+            }
+
+        #prev {
+            left: 20px;
+        }
+
+        #next {
+            right: 20px;
+        }
+
+        #container:hover .arrow {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lesson10 滚动轮播图片 - 自动生成菜单 + 自动播放</h1>
+
+    <div id="container">
+        <div id="list">
+            <!-- 图片会通过JS动态插入，这里先留空 -->
+        </div>
+
+        <div id="buttons"></div>
+
+        <a href="javascript:;" id="prev" class="arrow">&lt;</a>
+        <a href="javascript:;" id="next" class="arrow">&gt;</a>
+    </div>
+
+    <script>
+        // ==================== 配置区 ====================
+        const images = [
+            "https://picsum.photos/id/1015/800/500",
+            "https://picsum.photos/id/102/800/500",
+            "https://picsum.photos/id/1036/800/500",
+            "https://picsum.photos/id/1049/800/500",
+            "https://picsum.photos/id/106/800/500",
+            "https://picsum.photos/id/1074/800/500"
+            // 可以继续添加更多图片，代码会自动适配
+        ];
+
+        const width = 800;           // 单张图片宽度
+        const intervalTime = 3000;   // 自动切换间隔（毫秒）
+
+        // ==================== DOM元素 ====================
+        const container = document.getElementById("container");
+        const list = document.getElementById("list");
+        const buttons = document.getElementById("buttons");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        let currentIndex = 0;
+        let timer = null;
+
+        // ==================== 1. 自动生成图片和菜单 ====================
+        function init() {
+            // 清空原有内容
+            list.innerHTML = "";
+            buttons.innerHTML = "";
+
+            // 动态生成图片
+            images.forEach(src => {
+                const img = document.createElement("img");
+                img.src = src;
+                list.appendChild(img);
+            });
+
+            // 动态生成下方按钮
+            images.forEach((_, index) => {
+                const span = document.createElement("span");
+                span.setAttribute("data-index", index);
+                if (index === 0) span.classList.add("on");
+                span.onclick = function() {
+                    currentIndex = parseInt(this.getAttribute("data-index"));
+                    moveToCurrent();
+                };
+                buttons.appendChild(span);
+            });
+
+            // 克隆第一张图放到最后，实现无缝滚动
+            const firstClone = list.children[0].cloneNode(true);
+            list.appendChild(firstClone);
+        }
+
+        // ==================== 2. 移动函数 ====================
+        function moveToCurrent() {
+            list.style.left = -currentIndex * width + "px";
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const spans = buttons.getElementsByTagName("span");
+            for (let i = 0; i < spans.length; i++) {
+                spans[i].classList.toggle("on", i === currentIndex);
+            }
+        }
+
+        // ==================== 3. 切换函数 ====================
+        function nextSlide() {
+            currentIndex++;
+            list.style.transition = "left 0.5s ease";
+            moveToCurrent();
+
+            // 到达克隆图时瞬间跳回
+            if (currentIndex === images.length) {
+                setTimeout(() => {
+                    list.style.transition = "none";
+                    currentIndex = 0;
+                    moveToCurrent();
+                }, 500);
+            }
+        }
+
+        function prevSlide() {
+            currentIndex--;
+            list.style.transition = "left 0.5s ease";
+            moveToCurrent();
+
+            if (currentIndex < 0) {
+                setTimeout(() => {
+                    list.style.transition = "none";
+                    currentIndex = images.length - 1;
+                    moveToCurrent();
+                }, 500);
+            }
+        }
+
+        // ==================== 4. 自动播放 ====================
+        function startAutoPlay() {
+            stopAutoPlay();
+            timer = setInterval(() => {
+                nextSlide();
+            }, intervalTime);
+        }
+
+        function stopAutoPlay() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        // ==================== 5. 事件绑定 ====================
+        function bindEvents() {
+            // 左右箭头
+            prev.onclick = () => {
+                prevSlide();
+                startAutoPlay(); // 手动操作后重启计时
+            };
+
+            next.onclick = () => {
+                nextSlide();
+                startAutoPlay();
+            };
+
+            // 鼠标悬停暂停
+            container.onmouseenter = stopAutoPlay;
+            container.onmouseleave = startAutoPlay;
+        }
+
+        // ==================== 初始化 ====================
+        window.onload = function() {
+            init();
+            bindEvents();
+            startAutoPlay();
+        };
+    </script>
+</body>
+</html>
